@@ -9,8 +9,7 @@ motivation I have for writing my book notes: https://github.com/Ohmnivore/Notes
 
 # Which commit corresponds to which episode?
 Check out the past commits. You will find that commits don't happen every episode, and are rather rare. That's because
-the videos in the code are cumulative and don't start from scratch everytime. I only made new commits when I thought
-that the code base would be significantly altered.
+the code in the videos progresses in a cumulative way and doesn't start from scratch everytime. I only made new commits when I thought that the code base would be significantly altered.
 
 # Which parts of the code have I changed?
 I changed as little as possible, but I couldn't stand Qt. I love Qt for GUIs, but I'm learning OpenGL in the context
