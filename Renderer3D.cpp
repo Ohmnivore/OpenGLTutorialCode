@@ -16,23 +16,27 @@ Renderer3D::~Renderer3D()
 
 void sendDataToOpenGL()
 {
+	const GLfloat TOP_Z = -0.5f;
+	const GLfloat BOT_Z = 0.5f;
 	GLfloat verts[] =
 	{
-		+0.0f, +0.0f, +0.0f, +1.0f, +0.0f,
-		+1.0f, +1.0f, +0.0f, +0.0f, +1.0f,
-		-1.0f, +1.0f, +1.0f, +0.0f, +0.0f,
-		-1.0f, -1.0f, +1.0f, +0.0f, +0.0f,
-		+1.0f, -1.0f, +0.0f, +0.0f, +1.0f,
-		+0.0f, +1.0f, +0.0f, +1.0f, +0.0f,
+		//x, y, z, r, g, b
+		+0.0f, +0.0f, TOP_Z, +0.0f, +1.0f, +0.0f,
+		+1.0f, +1.0f, TOP_Z, +0.0f, +0.0f, +1.0f,
+		-1.0f, +1.0f, TOP_Z, +1.0f, +0.0f, +0.0f,
+
+		-1.0f, -1.0f, BOT_Z, + 1.0f, +0.0f, +0.0f,
+		+1.0f, -1.0f, BOT_Z, +0.0f, +0.0f, +1.0f,
+		+0.0f, +1.0f, -1.0f, +0.0f, +1.0f, +0.0f,
 	};
 	GLuint vertexBuffer;
 	glGenBuffers(1, &vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (char*)(sizeof(float) * 2));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (char*)(sizeof(float) * 3));
 
 	GLushort indices[] = { 0, 1, 2, 3, 4, 5, };
 	GLuint indexBuffer;
@@ -118,6 +122,8 @@ void installShaders()
 
 void Renderer3D::init()
 {
+	glEnable(GL_DEPTH_TEST);
+
 	/* Clear our buffer with a green background */
 	glClearColor(0.0, 1.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -129,6 +135,8 @@ void Renderer3D::init()
 
 void Renderer3D::render()
 {
+	glClear(GL_DEPTH_BUFFER_BIT);
+
 	int w;
 	int h;
 	SDL_GetWindowSize(window, &w, &h);
